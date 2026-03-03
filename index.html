@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="google-site-verification" content="BQj8t2TI1qrN7sbOJ-MweGBmTAs6fSymZlA7fd-aeOI" />
+
+    <title>Global Web Tool | Image Converter & Professional Utilities</title>
+    <meta name="description" content="Free online tools for everyone: Image to WebP/PNG converter, units transform, and text tools. Fast, secure, and works offline.">
+    <meta name="keywords" content="image converter, png to webp, unit converter, free web tools, developer tools">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            padding: 20px;
+            text-align: center;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            background: var(--card);
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 25px;
+            transition: transform 0.3s ease, border-color 0.3s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 8px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: white;
+        }
+
+        .btn-convert {
+            background: var(--primary);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .btn-convert:hover { opacity: 0.9; }
+
+        .result-area {
+            margin-top: 15px;
+            padding: 10px;
+            background: #1e293b;
+            border-radius: 8px;
+            word-break: break-all;
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid #334155;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <strong>GLOBAL TOOLBOX PRO</strong>
+</nav>
+
+<div class="container">
+    <div class="hero-section">
+        <h1 id="mainTitle">Universal Digital Solutions</h1>
+        <p id="subTitle">Fast, Private, and Free Utilities for Global Users</p>
+    </div>
+
+    <div class="tools-grid">
+        <div class="tool-card">
+            <h3>🖼️ Smart Image Converter</h3>
+            <p>Convert any image to WebP (Next-Gen format)</p>
+            <input type="file" id="imageInput" accept="image/*">
+            <button class="btn-convert" onclick="convertToWebP()">Convert & Download</button>
+            <canvas id="canvas" style="display:none;"></canvas>
+        </div>
+
+        <div class="tool-card">
+            <h3>📏 Universal Unit Converter</h3>
+            <input type="number" id="unitInput" placeholder="Value">
+            <select id="unitType">
+                <option value="kmToMi">Kilometers to Miles</option>
+                <option value="kgToLb">Kilograms to Pounds</option>
+                <option value="cToF">Celsius to Fahrenheit</option>
+            </select>
+            <button class="btn-convert" onclick="convertUnits()">Calculate</button>
+            <div id="unitResult" class="result-area"></div>
+        </div>
+
+        <div class="tool-card">
+            <h3>🔐 Security Architect</h3>
+            <p>Generate military-grade passwords locally.</p>
+            <button class="btn-convert" onclick="generateSecurePass()">Generate Now</button>
+            <div id="passResult" class="result-area"></div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 Global Web Toolbox | Privacy First: All processing happens in your browser.
+</footer>
+
+<script>
+    // 1. ترجمة تلقائية بسيطة حسب اللغة
+    const userLang = navigator.language || navigator.userLanguage;
+    if (userLang.startsWith('ar')) {
+        document.getElementById('mainTitle').innerText = "مركز الأدوات العالمي";
+        document.getElementById('subTitle').innerText = "أدوات سريعة، آمنة ومجانية للجميع";
+    }
+
+    // 2. محول الصور الذكي (مهم جداً للـ SEO)
+    function convertToWebP() {
+        const input = document.getElementById('imageInput');
+        if (!input.files[0]) return alert("Please select an image first!");
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.getElementById('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                
+                const dataUrl = canvas.toDataURL('image/webp');
+                const link = document.createElement('a');
+                link.download = 'converted-image.webp';
+                link.href = dataUrl;
+                link.click();
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+
+    // 3. محول الوحدات
+    function convertUnits() {
+        const val = parseFloat(document.getElementById('unitInput').value);
+        const type = document.getElementById('unitType').value;
+        const resDiv = document.getElementById('unitResult');
+        let result = "";
+
+        if (isNaN(val)) return;
+
+        if (type === "kmToMi") result = (val * 0.621371).toFixed(2) + " Miles";
+        else if (type === "kgToLb") result = (val * 2.20462).toFixed(2) + " Pounds";
+        else if (type === "cToF") result = ((val * 9/5) + 32).toFixed(2) + " °F";
+
+        resDiv.innerText = "Result: " + result;
+        resDiv.style.display = "block";
+    }
+
+    // 4. مولد كلمات السر
+    function generateSecurePass() {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+        let pass = "";
+        for (let i = 0; i < 20; i++) pass += chars.charAt(Math.floor(Math.random() * chars.length));
+        
+        const resDiv = document.getElementById('passResult');
+        resDiv.innerText = pass;
+        resDiv.style.display = "block";
+    }
+</script>
+
+</body>
+</html>

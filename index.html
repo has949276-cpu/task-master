@@ -1,158 +1,216 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="mainHtml">
 <head>
     <meta name="google-site-verification" content="BQj8t2TI1qrN7sbOJ-MweGBmTAs6fSymZlA7fd-aeOI" />
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Web Tool | Pro Image Converter & Color Picker</title>
-    <meta name="description" content="Free professional tools: WebP converter, Image color picker, and unit converter. Safe, fast, and 100% private.">
+    <title id="metaTitle">Global Toolbox Pro | Ultimate Web Utilities & Image Tools</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     
     <script src="https://pl28825044.effectivegatecpm.com/c3/eb/01/c3eb01a1312b0990825156562c460151.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-
     <style>
-        :root { --primary: #6366f1; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #10b981; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
-        .navbar { padding: 20px; text-align: center; background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 100; }
-        .container { max-width: 1000px; margin: 40px auto; padding: 20px; flex-grow: 1; }
-        .hero-section { text-align: center; margin-bottom: 50px; }
-        .hero-section h1 { font-size: 2.5rem; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .tool-card { background: var(--card); border: 1px solid #334155; border-radius: 16px; padding: 25px; transition: 0.3s; position: relative; }
-        .drop-zone { border: 2px dashed var(--primary); padding: 30px; text-align: center; border-radius: 12px; background: rgba(99, 102, 241, 0.05); cursor: pointer; margin-top: 15px; }
-        .ad-container { margin: 30px 0; text-align: center; min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; }
-        input, select, button { width: 100%; padding: 12px; margin-top: 15px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white; }
-        .btn-convert { background: var(--primary); border: none; font-weight: 600; cursor: pointer; }
-        .result-area { margin-top: 15px; padding: 10px; background: #0f172a; border-radius: 8px; display: none; color: var(--accent); font-weight: bold; text-align: center; }
-        .color-box { width: 100%; height: 50px; border-radius: 8px; margin-top: 10px; border: 2px solid #fff; display: none; }
-        footer { text-align: center; padding: 30px; border-top: 1px solid #334155; color: #94a3b8; }
+        :root { --primary: #6366f1; --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #10b981; --vip: #f59e0b; }
+        
+        * { box-sizing: border-box; transition: 0.3s ease; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; min-height: 100vh; overflow-x: hidden; }
+        
+        /* Language Support */
+        html[lang="ar"] body { font-family: 'Cairo', sans-serif; direction: rtl; }
+
+        .navbar { padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: 1px; color: var(--primary); }
+        .lang-btn { background: var(--primary); color: white; border: none; padding: 6px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        
+        .hero { text-align: center; margin-bottom: 60px; }
+        .hero h1 { font-size: 3rem; margin-bottom: 10px; background: linear-gradient(90deg, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: #94a3b8; font-size: 1.1rem; }
+
+        .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+        .tab-btn { background: var(--card); border: 1px solid #334155; color: white; padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; }
+        .tab-btn.active { background: var(--primary); border-color: var(--primary); }
+
+        .ad-slot { margin: 25px 0; text-align: center; background: rgba(255,255,255,0.02); border-radius: 15px; padding: 15px; border: 1px dashed #334155; min-height: 100px; }
+
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .tool-card { background: var(--card); border: 1px solid #334155; border-radius: 20px; padding: 30px; position: relative; overflow: hidden; }
+        .tool-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1); }
+        
+        .drop-zone { border: 2px dashed #475569; padding: 40px 20px; text-align: center; border-radius: 15px; background: rgba(15, 23, 42, 0.4); cursor: pointer; margin: 20px 0; }
+        .drop-zone:hover { border-color: var(--primary); background: rgba(99, 102, 241, 0.05); }
+
+        .btn-action { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 1rem; }
+        input, select { width: 100%; padding: 12px; margin-top: 10px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 1rem; }
+
+        .result-box { margin-top: 20px; padding: 15px; background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent); border-radius: 10px; color: var(--accent); font-weight: bold; text-align: center; display: none; }
+
+        /* Articles Section */
+        .article-section { background: var(--card); padding: 40px; border-radius: 24px; margin-top: 50px; line-height: 1.8; border: 1px solid #334155; }
+        .article-section h2 { color: var(--vip); }
+
+        /* Eco-System Section */
+        .eco-system { margin-top: 60px; text-align: center; padding: 40px; background: linear-gradient(180deg, transparent, rgba(99, 102, 241, 0.05)); border-radius: 30px; }
+        .eco-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 25px; }
+        .eco-link { background: #1e293b; padding: 20px; border-radius: 15px; border: 1px solid #334155; text-decoration: none; color: white; font-weight: bold; font-size: 0.9rem; }
+        .eco-link:hover { border-color: var(--vip); color: var(--vip); transform: scale(1.05); }
+
+        footer { text-align: center; padding: 50px 20px; color: #64748b; border-top: 1px solid #334155; margin-top: 50px; }
+
+        @media (max-width: 600px) { .hero h1 { font-size: 2.2rem; } }
     </style>
     <script defer src="https://cloud.umami.is/script.js" data-website-id="a0f00e30-a944-4216-97a8-ab5dbccfe8e7"></script>
 </head>
 <body>
 
-<nav class="navbar"><strong>GLOBAL TOOLBOX PRO</strong></nav>
+<nav class="navbar">
+    <div class="logo">GLOBAL TOOLBOX PRO</div>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">العربية</button>
+</nav>
 
 <div class="container">
-    <div class="hero-section">
-        <h1 id="mainTitle">Universal Digital Solutions</h1>
-        <p id="subTitle">High-performance tools for designers and developers worldwide.</p>
-    </div>
+    <header class="hero">
+        <h1 id="hTitle">Universal Digital Solutions</h1>
+        <p id="hDesc">High-performance tools for modern designers and developers.</p>
+    </header>
 
-    <div class="ad-container">
+    <div class="ad-slot">
         <script async="async" data-cfasync="false" src="https://pl28825118.effectivegatecpm.com/6176d6409e3673252f81c5cbb95ba586/invoke.js"></script>
         <div id="container-6176d6409e3673252f81c5cbb95ba586"></div>
     </div>
 
     <div class="tools-grid">
         <div class="tool-card">
-            <h3>🖼️ WebP Converter</h3>
-            <p>Convert images to next-gen format.</p>
-            <div class="drop-zone" onclick="document.getElementById('imgInp1').click()">
-                <p>Drop Image Here</p>
-                <input type="file" id="imgInp1" accept="image/*" style="display:none;" onchange="processWebP(this)">
+            <h3 id="t1T">🖼️ WebP Optimizer</h3>
+            <p id="t1D">Convert any image to high-performance WebP format.</p>
+            <div class="drop-zone" onclick="document.getElementById('fileInp').click()">
+                <span id="t1Drop">Click or Drop Image</span>
+                <input type="file" id="fileInp" accept="image/*" style="display:none;" onchange="convertToWebP(this)">
             </div>
-            <div id="status1" class="result-area">Success! Download started.</div>
+            <div id="res1" class="result-box">Processing complete!</div>
         </div>
 
         <div class="tool-card">
-            <h3>🎨 Color Extractor</h3>
-            <p>Get HEX codes from any image.</p>
-            <div class="drop-zone" onclick="document.getElementById('imgInp2').click()">
-                <p>Upload Image to Pick Color</p>
-                <input type="file" id="imgInp2" accept="image/*" style="display:none;" onchange="extractColor(this)">
+            <h3 id="t2T">🎨 HEX Extractor</h3>
+            <p id="t2D">Instant color identification from your creative assets.</p>
+            <div class="drop-zone" onclick="document.getElementById('colorInp').click()">
+                <span id="t2Drop">Upload Image to Pick</span>
+                <input type="file" id="colorInp" accept="image/*" style="display:none;" onchange="extractHEX(this)">
             </div>
-            <div id="colorRes" class="result-area">Selected Color: <span id="hexVal">#000000</span></div>
-            <div id="colorBox" class="color-box"></div>
+            <div id="res2" class="result-box">HEX: <span id="hexRes">#000000</span></div>
         </div>
 
-        <div class="tool-card">
-            <h3>📏 Unit Converter</h3>
-            <input type="number" id="uInp" placeholder="Value">
-            <select id="uType">
-                <option value="kmToMi">KM to Miles</option>
-                <option value="kgToLb">KG to Pounds</option>
-                <option value="cToF">Celsius to Fahrenheit</option>
-            </select>
-            <button class="btn-convert" onclick="calcUnits()">Convert</button>
-            <div id="uRes" class="result-area"></div>
+        <div class="tool-card" style="border: 2px solid var(--vip);">
+            <h3 id="t3T">✅ Project Manager</h3>
+            <p id="t3D">Organize your workflow with our advanced Task Master tool.</p>
+            <div style="padding: 20px; text-align: center; background: rgba(245, 158, 11, 0.05); border-radius: 12px; margin-top: 15px;">
+                <p id="t3P" style="font-size: 0.85rem;">Sync your engineering tasks and coding schedules.</p>
+                <a href="https://has949276-cpu.github.io/task-master/" class="btn-action" style="display: block; text-decoration: none; background: var(--vip);">Launch Task Master</a>
+            </div>
         </div>
     </div>
 
-    <div class="ad-container">
-        <p style="font-size: 0.7rem; color: #475569; margin-bottom: 5px;">ADVERTISEMENT</p>
-        <div id="container-6176d6409e3673252f81c5cbb95ba586-bottom"></div>
+    <section class="article-section">
+        <h2 id="artTitle">Digital Transformation 2026</h2>
+        <div id="artBody">
+            <p>In the rapidly evolving digital landscape, performance is everything. Using WebP images reduces load times by 30%, improving both user experience and Google rankings. Our global toolbox provides the essential utilities to stay ahead.</p>
+            <p>From engineering calculations in <strong>EngAli</strong> to managing complex prompts in <strong>HA Smart Hub</strong>, our ecosystem is built for creators.</p>
         </div>
+    </section>
+
+    <div class="eco-system">
+        <h2 id="ecoTitle">🚀 HA Digital Eco-System</h2>
+        <div class="eco-grid">
+            <a href="https://has949276-cpu.github.io/task-master/" class="eco-link">Task Master</a>
+            <a href="https://has949276-cpu.github.io/engali/" class="eco-link">EngAli PRO</a>
+            <a href="https://has949276-cpu.github.io/HA-SMART-HUB/" class="eco-link">Smart Hub</a>
+            <a href="https://has949276-cpu.github.io/prompt-base/" class="eco-link">Prompt Base</a>
+        </div>
+    </div>
 </div>
 
-<footer>&copy; 2026 Global Web Toolbox | Privacy-Focused Utilities</footer>
+<footer>
+    <p>© 2026 HA GLOBAL TOOLS | <span id="footText">Privacy-Focused Professional Utilities</span></p>
+</footer>
 
-<canvas id="hiddenCanvas" style="display:none;"></canvas>
+<canvas id="procCanvas" style="display:none;"></canvas>
 
 <script>
-    // WebP Logic
-    function processWebP(input) {
-        const file = input.files[0];
-        if (!file) return;
+    let curLang = 'en';
+    const langData = {
+        ar: {
+            hTitle: "مركز الحلول الرقمية العالمي", hDesc: "أدوات عالية الأداء للمصممين والمطورين المحترفين.",
+            t1T: "🖼️ محول WebP", t1D: "حول صورك إلى تنسيق WebP لسرعة قصوى للمواقع.", t1Drop: "اضغط أو أفلت الصورة هنا",
+            t2T: "🎨 مستخرج الألوان", t2D: "استخرج أكواد HEX من أي تصميم بدقة.", t2Drop: "ارفع الصورة لاستخراج اللون",
+            t3T: "✅ مدير المهام", t3D: "نظم عملك ومشاريعك البرمجية عبر Task Master.", t3P: "قم بمزامنة مهامك الهندسية وجدولك الزمني.",
+            artTitle: "التحول الرقمي 2026", artBody: "<p>في العالم الرقمي السريع، الأداء هو كل شيء. استخدام تنسيق WebP يقلل وقت التحميل بنسبة 30%. أدواتنا مصممة لتبقيك في القمة.</p>",
+            ecoTitle: "🚀 منظومة HA الرقمية المتكاملة", footText: "أدوات احترافية تركز على الخصوصية", btn: "English"
+        },
+        en: {
+            hTitle: "Universal Digital Solutions", hDesc: "High-performance tools for modern designers and developers.",
+            t1T: "🖼️ WebP Optimizer", t1D: "Convert any image to high-performance WebP format.", t1Drop: "Click or Drop Image",
+            t2T: "🎨 HEX Extractor", t2D: "Instant color identification from your creative assets.", t2Drop: "Upload Image to Pick",
+            t3T: "✅ Project Manager", t3D: "Organize your workflow with our advanced Task Master tool.", t3P: "Sync your engineering tasks and coding schedules.",
+            artTitle: "Digital Transformation 2026", artBody: "<p>Performance is everything. WebP reduces load times by 30%. Our toolbox provides the essential utilities.</p>",
+            ecoTitle: "🚀 HA Digital Eco-System", footText: "Privacy-Focused Professional Utilities", btn: "العربية"
+        }
+    };
+
+    function toggleLang() {
+        curLang = curLang === 'en' ? 'ar' : 'en';
+        document.getElementById('mainHtml').lang = curLang;
+        const d = langData[curLang];
+        document.getElementById('langBtn').innerText = d.btn;
+        document.getElementById('hTitle').innerText = d.hTitle;
+        document.getElementById('hDesc').innerText = d.hDesc;
+        document.getElementById('t1T').innerText = d.t1T; document.getElementById('t1D').innerText = d.t1D; document.getElementById('t1Drop').innerText = d.t1Drop;
+        document.getElementById('t2T').innerText = d.t2T; document.getElementById('t2D').innerText = d.t2D; document.getElementById('t2Drop').innerText = d.t2Drop;
+        document.getElementById('t3T').innerText = d.t3T; document.getElementById('t3D').innerText = d.t3D; document.getElementById('t3P').innerText = d.t3P;
+        document.getElementById('artTitle').innerText = d.artTitle; document.getElementById('artBody').innerHTML = d.artBody;
+        document.getElementById('ecoTitle').innerText = d.ecoTitle; document.getElementById('footText').innerText = d.footText;
+    }
+
+    function convertToWebP(input) {
+        const file = input.files[0]; if (!file) return;
         const reader = new FileReader();
         reader.onload = (e) => {
             const img = new Image();
             img.onload = () => {
-                const cvs = document.getElementById('hiddenCanvas');
+                const cvs = document.getElementById('procCanvas');
                 cvs.width = img.width; cvs.height = img.height;
                 cvs.getContext('2d').drawImage(img, 0, 0);
                 const a = document.createElement('a');
-                a.download = 'tool-converted.webp';
-                a.href = cvs.toDataURL('image/webp');
+                a.download = 'ha-converted.webp';
+                a.href = cvs.toDataURL('image/webp', 0.8);
                 a.click();
-                document.getElementById('status1').style.display = "block";
+                document.getElementById('res1').style.display = "block";
             };
             img.src = e.target.result;
         };
         reader.readAsDataURL(file);
     }
 
-    // Color Extractor Logic
-    function extractColor(input) {
-        const file = input.files[0];
-        if (!file) return;
+    function extractHEX(input) {
+        const file = input.files[0]; if (!file) return;
         const reader = new FileReader();
         reader.onload = (e) => {
             const img = new Image();
             img.onload = () => {
-                const cvs = document.getElementById('hiddenCanvas');
+                const cvs = document.getElementById('procCanvas');
                 const ctx = cvs.getContext('2d');
                 cvs.width = img.width; cvs.height = img.height;
                 ctx.drawImage(img, 0, 0);
                 const data = ctx.getImageData(img.width/2, img.height/2, 1, 1).data;
                 const hex = "#" + ((1 << 24) + (data[0] << 16) + (data[1] << 8) + data[2]).toString(16).slice(1);
-                document.getElementById('hexVal').innerText = hex.toUpperCase();
-                document.getElementById('colorBox').style.backgroundColor = hex;
-                document.getElementById('colorBox').style.display = "block";
-                document.getElementById('colorRes').style.display = "block";
+                document.getElementById('hexRes').innerText = hex.toUpperCase();
+                document.getElementById('res2').style.display = "block";
+                document.getElementById('res2').style.backgroundColor = hex + "22";
             };
             img.src = e.target.result;
         };
         reader.readAsDataURL(file);
-    }
-
-    // Units Logic
-    function calcUnits() {
-        const v = parseFloat(document.getElementById('uInp').value);
-        const t = document.getElementById('uType').value;
-        const r = document.getElementById('uRes');
-        if (isNaN(v)) return;
-        let res = t==="kmToMi" ? v*0.62 : t==="kgToLb" ? v*2.2 : (v*9/5)+32;
-        r.innerText = "Result: " + res.toFixed(2);
-        r.style.display = "block";
-    }
-
-    // Translation Logic
-    if (navigator.language.startsWith('ar')) {
-        document.getElementById('mainTitle').innerText = "مركز الأدوات الرقمي العالمي";
-        document.getElementById('subTitle').innerText = "أدوات احترافية للمصممين والمطورين حول العالم";
     }
 </script>
 </body>
